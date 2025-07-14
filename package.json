@@ -1,0 +1,20 @@
+{
+  "name": "azure-group-sync-api",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "@microsoft/microsoft-graph-client": "^3.0.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.19.2",
+    "isomorphic-fetch": "^3.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "jwks-rsa": "^3.2.0",
+    "mongoose": "^8.16.2",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.17.0",
+    "yamljs": "^0.3.0"
+  }
+}
