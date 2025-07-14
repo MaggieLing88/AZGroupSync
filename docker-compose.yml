@@ -32,11 +32,28 @@ services:
       mongo:
         condition: service_healthy
     environment:
-      - NODE_ENV=${NODE_ENV:-development}
       - TZ=Asia/Singapore
       - COMPOSE_BAKE=true
     env_file:
       - .env
+    networks:
+      - az-group-sync-network
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: az-group-sync-mongo-express
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo
+      - ME_CONFIG_MONGODB_PORT=27017
+      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+      - ME_CONFIG_BASICAUTH_USERNAME=${MONGO_EXPRESS_WEB_USERNAME:-admin}
+      - ME_CONFIG_BASICAUTH_PASSWORD=${MONGO_EXPRESS_WEB_PASSWORD:-pass}
     networks:
       - az-group-sync-network
 

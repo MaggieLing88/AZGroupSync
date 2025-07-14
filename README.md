@@ -151,6 +151,24 @@ Open your browser and navigate to:
 http://localhost:8080/openapi
 ```
 
+### 4. Access MongoDB Database (Mongo Express)
+
+Open your browser and navigate to:
+```
+http://localhost:8081
+```
+
+**Default Credentials:**
+- Username: `admin`
+- Password: `pass`
+
+**Features:**
+- Browse databases and collections
+- View and edit documents
+- Execute MongoDB queries
+- Database statistics and indexes
+- Import/Export data
+
 ## Database Schema
 
 The service stores Azure AD groups in MongoDB with the following schema:
@@ -174,12 +192,12 @@ The service stores Azure AD groups in MongoDB with the following schema:
 
 | Variable | Description | Required | Default |
 |----------|-------------|----------|---------|
-| `PORT` | Server port | Yes | 8080 |
-| `NODE_ENV` | Environment mode | Yes | development |
-| `MONGO_URI` | Mongo DB URI | Yes | - |
+| `PORT` | Server port | No | 8080 |
+| `NODE_ENV` | Environment mode | No | development |
 | `AZURE_CLIENT_ID` | Azure AD application ID | Yes | - |
 | `AZURE_CLIENT_SECRET` | Azure AD application secret | Yes | - |
 | `AZURE_TENANT_ID` | Azure AD tenant ID | Yes | - |
+| `MONGO_URI` | Mongo DB URI | Yes | - |
 
 ### Docker Services
 
@@ -197,6 +215,13 @@ The Docker Compose setup includes:
   - Database: `azuresyncdb`
   - Persistent storage: enabled
   - Health checks: enabled
+
+- **Mongo Express**: 
+  - Container: `az-group-sync-mongo-express`
+  - Port: 8081
+  - Web-based MongoDB administration interface
+  - Basic authentication enabled
+  - Auto-restart: enabled
 
 ## Error Handling & Resilience
 
@@ -271,15 +296,30 @@ docker-compose down
 docker-compose down -v
 ```
 
-### Debugging
+### MongoDB Management with Mongo Express
 
-```bash
-# Check service logs
-docker-compose logs api
+Mongo Express provides a web-based MongoDB administration interface that's included in the Docker Compose setup.
 
-# Check MongoDB logs
-docker-compose logs mongo
-
-# Access MongoDB directly
-docker exec -it az-group-sync-mongo mongosh azuresyncdb
+**Access the Interface:**
 ```
+http://localhost:8081
+```
+
+**Default Login Credentials:**
+- Username: `admin`
+- Password: `pass`
+
+**Common Operations:**
+
+1. **View Synced Groups:**
+   - Navigate to `azuresyncdb` database
+   - Click on `groups` collection
+   - Browse synchronized Azure AD groups
+
+2. **Search for Specific Groups:**
+   - Use the search functionality in Mongo Express
+   - Filter by `displayName`, `mail`, or other fields
+
+3. **Monitor Sync Results:**
+   - Check `createdAt` and `updatedAt` timestamps
+   - Verify data consistency after sync operations`
