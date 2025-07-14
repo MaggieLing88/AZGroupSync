@@ -176,7 +176,7 @@ The service stores Azure AD groups in MongoDB with the following schema:
 |----------|-------------|----------|---------|
 | `PORT` | Server port | Yes | 3000 |
 | `NODE_ENV` | Environment mode | Yes | development |
-| `MONGO_URI` | Mongo DB URI | Yes | info |
+| `MONGO_URI` | Mongo DB URI | Yes | - |
 | `AZURE_CLIENT_ID` | Azure AD application ID | Yes | - |
 | `AZURE_CLIENT_SECRET` | Azure AD application secret | Yes | - |
 | `AZURE_TENANT_ID` | Azure AD tenant ID | Yes | - |
