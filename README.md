@@ -174,7 +174,7 @@ The service stores Azure AD groups in MongoDB with the following schema:
 
 | Variable | Description | Required | Default |
 |----------|-------------|----------|---------|
-| `PORT` | Server port | Yes | 3000 |
+| `PORT` | Server port | Yes | 8080 |
 | `NODE_ENV` | Environment mode | Yes | development |
 | `MONGO_URI` | Mongo DB URI | Yes | - |
 | `AZURE_CLIENT_ID` | Azure AD application ID | Yes | - |
