@@ -1,0 +1,178 @@
+openapi: 3.0.3
+info:
+  title: Azure Group Sync API
+  description: |
+    A REST API service that synchronizes Azure Active Directory security groups with a MongoDB database.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+  - url: https://api.example.com
+    description: Production server
+
+paths:
+  /v1.0/securitygroup/sync:
+    get:
+      summary: Synchronize Security Groups
+      description: |
+        Triggers synchronization of Azure Active Directory security groups with the local MongoDB database. 
+        **Note**: This operation may take several minutes for large organizations with many groups.
+      operationId: syncSecurityGroups
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Groups synchronized successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncSuccessResponse'
+              examples:
+                successful_sync:
+                  summary: Successful synchronization
+                  value:
+                    statuscode: 200
+                    message:
+                      count: 25
+                      message: "Groups synchronized successfully."
+                empty_sync:
+                  summary: No groups to sync
+                  value:
+                    statuscode: 200
+                    message:
+                      count: 0
+                      message: "No new groups to sync."
+        '401':
+          description: Missing or invalid authentication token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                statuscode: 401
+                message: "Missing or invalid access token"
+        '500':
+          description: Internal server error during synchronization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                sync_failure:
+                  summary: Synchronization failed
+                  value:
+                    statuscode: 500
+                    message: "Failed to sync groups."
+                database_error:
+                  summary: Database connection error
+                  value:
+                    statuscode: 500
+                    message: "Database connection failed"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT token required for API access. Include the token in the Authorization header:
+        ```
+        Authorization: Bearer <your-jwt-token>
+        ```
+
+  schemas:
+    SyncResult:
+      type: object
+      description: Result of the group synchronization operation
+      properties:
+        count:
+          type: integer
+          description: Number of groups synchronized
+          minimum: 0
+          example: 25
+        message:
+          type: string
+          description: Synchronization status message
+          example: "Groups synced successfully."
+      required:
+        - count
+        - message
+
+    SyncSuccessResponse:
+      type: object
+      description: Successful synchronization response
+      properties:
+        statuscode:
+          type: integer
+          description: HTTP status code
+          example: 200
+        message:
+          $ref: '#/components/schemas/SyncResult'
+      required:
+        - statuscode
+        - message
+
+    ErrorResponse:
+      type: object
+      description: Error response for failed operations
+      properties:
+        statuscode:
+          type: integer
+          description: HTTP status code
+          example: 500
+        message:
+          type: string
+          description: Error message describing what went wrong
+          example: "Failed to sync groups."
+      required:
+        - statuscode
+        - message
+
+    Group:
+      type: object
+      description: Azure AD security group representation
+      properties:
+        id:
+          type: string
+          description: Unique Azure AD group identifier
+          example: "12345678-1234-1234-1234-123456789abc"
+        displayName:
+          type: string
+          description: Display name of the group
+          example: "IT Security Team"
+        mail:
+          type: string
+          format: email
+          nullable: true
+          description: Email address of the group (if mail-enabled)
+          example: "it-security@company.com"
+        mailEnabled:
+          type: boolean
+          description: Whether the group is mail-enabled
+          example: false
+        securityEnabled:
+          type: boolean
+          description: Whether the group is security-enabled (always true for synced groups)
+          example: true
+        createdDateTime:
+          type: string
+          format: date-time
+          description: When the group was created in Azure AD
+          example: "2023-01-15T10:30:00Z"
+        createdAt:
+          type: string
+          format: date-time
+          description: When the record was created in the local database
+          example: "2023-01-15T10:35:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          description: When the record was last updated in the local database
+          example: "2023-01-15T10:35:00Z"
+      required:
+        - id
+        - displayName
+        - mailEnabled
+        - securityEnabled

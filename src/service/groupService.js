@@ -63,7 +63,7 @@ export const syncSecurityGroups = async () => {
       nextLink = result["@odata.nextLink"] || null
     }
 
-    return { count: upserted, message: "Groups synced successfully." }
+    return { count: upserted, message: "Groups synchronized successfully." }
   } catch (err) {
     log.error("Error during syncSecurityGroups:", JSON.stringify(err))
     throw err
