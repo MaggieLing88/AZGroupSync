@@ -34,7 +34,7 @@ A Node.js REST API service that synchronizes Azure Active Directory security gro
 - Node.js 22+ 
 - MongoDB 8+
 - Azure AD application with appropriate permissions
-- Docker and Docker Compose
+- Docker and Docker Express
 
 ## Azure AD Permissions Required
 
