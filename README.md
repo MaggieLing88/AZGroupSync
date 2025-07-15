@@ -42,7 +42,6 @@ A Node.js REST API service that synchronizes Azure Active Directory security gro
 Your Azure AD application needs the following Microsoft Graph permissions:
 
 - `Group.Read.All` - To read all groups
-- `Directory.Read.All` - To read directory data
 
 ## Quick Start
 
