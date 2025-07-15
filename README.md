@@ -1,7 +1,6 @@
 # Azure Group Sync API
 
-A Node.js REST API service that synchronizes Azure Active Directory security groups with a MongoDB database. This service provides automated synchronization of Azure AD security groups and stores them locally for efficient querying and management.
-
+A Node.js REST API service that synchronizes Azure Active Directory security groups with a MongoDB database. 
 ## Architecture
 
 ```
