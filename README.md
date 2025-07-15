@@ -45,7 +45,7 @@ Your Azure AD application needs the following Microsoft Graph permissions:
 
 ## Quick Start
 
-### Using Docker Compose (Recommended)
+### Using VSCode (Recommended)
 
 1. **Clone the repository:**
    ```bash
